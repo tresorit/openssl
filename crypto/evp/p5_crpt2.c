@@ -85,7 +85,6 @@ int PKCS5_PBKDF2_HMAC(const char *pass, int passlen,
             HMAC_CTX_free(hctx_tpl);
             return 0;
         }
-        HMAC_CTX_reset(hctx);
         memcpy(p, digtmp, cplen);
         for (j = 1; j < iter; j++) {
             if (!HMAC_CTX_copy(hctx, hctx_tpl)) {
@@ -99,7 +98,6 @@ int PKCS5_PBKDF2_HMAC(const char *pass, int passlen,
                 HMAC_CTX_free(hctx_tpl);
                 return 0;
             }
-            HMAC_CTX_reset(hctx);
             for (k = 0; k < cplen; k++)
                 p[k] ^= digtmp[k];
         }
