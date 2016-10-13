@@ -181,8 +181,6 @@ int HMAC_CTX_reset(HMAC_CTX *ctx)
 
 int HMAC_CTX_copy(HMAC_CTX *dctx, HMAC_CTX *sctx)
 {
-    if (!HMAC_CTX_reset(dctx))
-        goto err;
     if (!EVP_MD_CTX_copy_ex(dctx->i_ctx, sctx->i_ctx))
         goto err;
     if (!EVP_MD_CTX_copy_ex(dctx->o_ctx, sctx->o_ctx))
