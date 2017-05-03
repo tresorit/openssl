@@ -77,7 +77,7 @@ $code=<<___;
 #endif
 
 .text
-#if defined(__thumb2__) && !defined(__APPLE__)
+#if defined(__thumb2__)
 .syntax	unified
 .thumb
 #else
@@ -197,17 +197,9 @@ AES_Te:
 .type   AES_encrypt,%function
 .align	5
 AES_encrypt:
-#ifndef	__thumb2__
-	sub	r3,pc,#8		@ AES_encrypt
-#else
 	adr	r3,AES_encrypt
-#endif
 	stmdb   sp!,{r1,r4-r12,lr}
-#ifdef	__APPLE__
 	adr	$tbl,AES_Te
-#else
-	sub	$tbl,r3,#AES_encrypt-AES_Te	@ Te
-#endif
 	mov	$rounds,r0		@ inp
 	mov	$key,r2
 #if __ARM_ARCH__<7
@@ -447,11 +439,7 @@ _armv4_AES_encrypt:
 .align	5
 AES_set_encrypt_key:
 _armv4_AES_set_encrypt_key:
-#ifndef	__thumb2__
-	sub	r3,pc,#8		@ AES_set_encrypt_key
-#else
 	adr	r3,AES_set_encrypt_key
-#endif
 	teq	r0,#0
 #ifdef	__thumb2__
 	itt	eq			@ Thumb2 thing, sanity check in ARM
@@ -481,11 +469,7 @@ _armv4_AES_set_encrypt_key:
 	mov	lr,r1			@ bits
 	mov	$key,r2			@ key
 
-#ifdef	__APPLE__
 	adr	$tbl,AES_Te+1024				@ Te4
-#else
-	sub	$tbl,r3,#_armv4_AES_set_encrypt_key-AES_Te-1024	@ Te4
-#endif
 
 #if __ARM_ARCH__<7
 	ldrb	$s0,[$rounds,#3]	@ load input data in endian-neutral
@@ -973,17 +957,9 @@ AES_Td:
 .type   AES_decrypt,%function
 .align	5
 AES_decrypt:
-#ifndef	__thumb2__
-	sub	r3,pc,#8		@ AES_decrypt
-#else
 	adr	r3,AES_decrypt
-#endif
 	stmdb   sp!,{r1,r4-r12,lr}
-#ifdef	__APPLE__
 	adr	$tbl,AES_Td
-#else
-	sub	$tbl,r3,#AES_decrypt-AES_Td	@ Td
-#endif
 	mov	$rounds,r0		@ inp
 	mov	$key,r2
 #if __ARM_ARCH__<7
