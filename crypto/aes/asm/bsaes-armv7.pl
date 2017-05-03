@@ -734,7 +734,7 @@ $code.=<<___;
 
 .text
 .syntax	unified 	@ ARMv7-capable assembler is expected to handle this
-#if defined(__thumb2__) && !defined(__APPLE__)
+#if defined(__thumb2__)
 .thumb
 #else
 .code   32
